@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#202b30">
+  <meta name="description" content="Sistem absensi karyawan DTY untuk pencatatan kehadiran dan pengelolaan data karyawan.">
+  <title>DTY | Sistem Absensi</title>
+  <link rel="stylesheet" href="assets/css/static-app.css">
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+  <section id="login-screen" class="login-screen" hidden>
+    <div class="login-brand-panel">
+      <div class="login-brand-lockup"><span class="login-brand-mark">DTY</span><span><strong>PABRIK DTY</strong><small>SISTEM ABSENSI</small></span></div>
+      <div class="login-brand-copy"><span class="eyebrow">BENANG TEKSTUR DTY / OPERASIONAL</span><h1>Karyawan andal,<br>produksi terus berjalan.</h1><p>Sistem absensi dan administrasi karyawan DTY.</p></div>
+      <div class="login-serial">OPERASIONAL PABRIK <span>•</span> </div>
+    </div>
+    <div class="login-form-panel">
+      <form id="login-form" class="login-form">
+        <h2>Selamat datang!</h2>
+        <p>Silakan masuk untuk melanjutkan ke portal absensi DTY.</p>
+        <label>Nama pengguna / NIK<input name="username" autocomplete="username" required value="" placeholder="Masukkan nama pengguna atau NIK"></label>
+        <label>Kata sandi<input name="password" type="password" autocomplete="current-password" required placeholder="Kata sandi"></label>
+        <p id="login-error" class="login-error" role="alert" hidden>Nama pengguna atau kata sandi tidak sesuai.</p>
+        <button class="button button-primary login-submit" type="submit">Masuk <span>→</span></button>
+        <details class="login-help">
+          <summary>Lupa kata sandi?</summary>
+          <p>Hubungi administrator DTY untuk mendapatkan bantuan pemulihan akses akun.</p>
+        </details>
+      </form>
+    </div>
+  </section>
+
+  <div class="app-shell" id="app-shell" hidden>
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="DTY Absensi, dashboard">
+        <span class="brand-mark">DTY</span>
+        <span><strong>Pabrik DTY</strong><small>Absensi &amp; data karyawan</small></span>
+      </a>
+      <div class="plant-status"><span class="status-light"></span><span>SHIFT OPERASIONAL</span><strong>AKTIF</strong></div>
+      <nav class="nav-menu" aria-label="Navigasi utama">
+        <span class="nav-label">MENU UTAMA</span>
+        <button class="nav-link is-active" data-view="dashboard"><span class="nav-icon">01</span>Ringkasan</button>
+        <button class="nav-link" data-view="attendance"><span class="nav-icon">02</span>Absensi</button>
+        <button class="nav-link" data-view="employees"><span class="nav-icon">03</span>Karyawan</button>
+        <button class="nav-link" data-view="history"><span class="nav-icon">04</span>Riwayat</button>
+      </nav>
+      <div class="sidebar-foot"><span class="foot-line"></span><small>PRODUKSI BENANG TEKSTUR<br>SISTEM ABSENSI DTY</small><span class="version">APLIKASI WEB / 01</span></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="breadcrumb"><span>PABRIK DTY</span><i>/</i><strong id="current-section">RINGKASAN</strong></div>
+        <div class="topbar-right"><span class="local-badge"><span></span>PENYIMPANAN LOKAL</span><div class="avatar">AD</div><div class="user-label"><strong id="signed-in-user">Administrator</strong><small>Panel operasional</small></div><button class="logout-button" data-logout title="Keluar" aria-label="Keluar">Keluar <span>↗</span></button></div>
+      </header>
+      <div id="view-root" class="view-root" aria-live="polite"></div>
+      <footer class="app-footer"><span>PABRIK DTY <i>•</i> SISTEM ABSENSI</span><span>DATA TERSIMPAN DI PERANGKAT INI</span></footer>
+    </main>
+  </div>
+
+  <dialog id="sick-dialog" class="dialog">
+    <form id="sick-form" class="dialog-form">
+      <div class="dialog-heading"><div><span class="eyebrow">PERMOHONAN / KEHADIRAN</span><h2>Ajukan sakit</h2></div><button type="button" class="icon-button" data-close-sick aria-label="Tutup">×</button></div>
+      <input type="hidden" name="employee">
+      <label>Unggah bukti SKD<input name="bukti_skd" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" required></label>
+      <small class="login-notice">Format PDF, JPG, atau PNG. Ukuran maksimal 1 MB.</small>
+      <label>Keterangan (opsional)<input name="keterangan" maxlength="250" placeholder="Contoh: perlu istirahat"></label>
+      <div class="dialog-actions"><button type="button" class="button button-quiet" data-close-sick>Batal</button><button class="button button-primary" type="submit">Kirim pengajuan</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="employee-dialog" class="dialog">
+    <form id="employee-form" class="dialog-form">
+      <div class="dialog-heading"><div><span class="eyebrow">DATA PERSONAL</span><h2 id="dialog-title">Tambah karyawan</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="Tutup">×</button></div>
+      <input type="hidden" name="id">
+      <label>NIK<input name="nik" required maxlength="30" placeholder="Contoh: DTY009"></label>
+      <label>Nama lengkap<input name="nama" required maxlength="100" placeholder="Nama karyawan"></label>
+      <div class="form-row"><label>Jenis kelamin<select name="jenis_kelamin" required><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></label><label>Status<select name="status"><option>Aktif</option><option>Nonaktif</option></select></label></div>
+      <label>Departemen<select name="departemen" required><option value="">Pilih departemen</option><option>Produksi DTY</option><option>Quality Control</option><option>Maintenance</option><option>Warehouse</option><option>Administrasi</option></select></label>
+      <label>Jabatan<input name="jabatan" required maxlength="100" placeholder="Contoh: Operator Produksi"></label>
+      <div class="dialog-actions"><button type="button" class="button button-quiet" data-close-dialog>Batal</button><button class="button button-primary" type="submit">Simpan data</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
